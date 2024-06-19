@@ -11,6 +11,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [apiData, setApiData] = useState("");
   const [showContent, setShowContent] = useState(false);
+  const [deliveryType, setDeliveryType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const [topic, setTopic] = useState("");
@@ -26,8 +27,7 @@ function App() {
     try {
       const model = await genAI.getGenerativeModel({ model: "gemini-pro" });
       const fullPrompt = `
-        I'm a teacher for grade ${grade}th, I want to teach about ${topic} for ${duration} minutes.
-      `;
+         I'm a teacher for grade ${grade}th, I want to teach about ${topic} for ${duration} minutes.generate an lesson plan with this Delivery Type: ${deliveryType} and add 10 questions and answer.Based on the grade the questions must be in tuff`; 
       const result = await model.generateContent(fullPrompt);
       const response = await result.response;
       const text = await response.text();
@@ -215,11 +215,25 @@ function App() {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Learning Management System</h1>
-      <h3 className="text-xl mb-6">Lesson Plan Generator</h3>
+    <div className="container mx-auto p-10 rounded-md w-[80%] flex flex-col mt-8.-+
+    -+
+    -+
+    -+
+    -+
+    
+    
+    
+    
+    items-center justify-center h-auto bg-white  shadow-[0_2.8px_2.2px_rgba(0,_0,_0,_0.034),_0_6.7px_5.3px_rgba(0,_0,_0,_0.048),_0_12.5px_10px_rgba(0,_0,_0,_0.06),_0_22.3px_17.9px_rgba(0,_0,_0,_0.072),_0_41.8px_33.4px_rgba(0,_0,_0,_0.086),_0_100px_80px_rgba(0,_0,_0,_0.12)]">
+      <h1 className="text-2xl font-bold mb-4 text-center">
+        Lesson Plan Generator
+      </h1>
+      {/* <h3 className="text-xl mb-6">Lesson Plan Generator</h3> */}
       <div className="form-container mb-10">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 flex flex-col items-center"
+        >
           <div className="form-group">
             <label
               htmlFor="topic"
@@ -229,7 +243,7 @@ function App() {
             </label>
             <input
               type="text"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block  bg-slate-200 p-2 w-[35rem] border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               id="topic"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
@@ -246,7 +260,7 @@ function App() {
             </label>
             <input
               type="text"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block bg-slate-200 w-[35rem] p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               id="grade"
               value={grade}
               onChange={(e) => setGrade(e.target.value)}
@@ -263,7 +277,7 @@ function App() {
             </label>
             <input
               type="text"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-[35rem] p-2 border bg-slate-200 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               id="duration"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
@@ -272,22 +286,24 @@ function App() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group ">
             <label className="block text-sm font-medium text-gray-700">
               Delivery Type
             </label>
-            <div className="mt-1">
+            <div className="mt-1 flex items-start gap-8">
               <div className="flex items-center">
                 <input
                   type="radio"
                   id="activityBased"
                   name="deliveryType"
+                  checked={deliveryType === "Activity Based"}
+                  onChange={(e) => setDeliveryType(e.target.value)}
                   value="Activity Based"
-                  className="mr-2"
+                  className="mr-2 text-gray-300"
                 />
                 <label
                   htmlFor="activityBased"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-500"
                 >
                   Activity Based
                 </label>
@@ -297,12 +313,14 @@ function App() {
                   type="radio"
                   id="enquiryBased"
                   name="deliveryType"
+                  checked={deliveryType === "Enquiry Based"}
+                  onChange={(e) => setDeliveryType(e.target.value)}
                   value="Enquiry Based"
                   className="mr-2"
                 />
                 <label
                   htmlFor="enquiryBased"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-500"
                 >
                   Enquiry Based
                 </label>
@@ -312,12 +330,14 @@ function App() {
                   type="radio"
                   id="experimentalLearning"
                   name="deliveryType"
+                  checked={deliveryType === "Experimental Learning"}
+                  onChange={(e) => setDeliveryType(e.target.value)}
                   value="Experimental Learning"
                   className="mr-2"
                 />
                 <label
                   htmlFor="experimentalLearning"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-500"
                 >
                   Experimental Learning
                 </label>
@@ -327,12 +347,14 @@ function App() {
                   type="radio"
                   id="content"
                   name="deliveryType"
+                  checked={deliveryType === "Content"}
+                  onChange={(e) => setDeliveryType(e.target.value)}
                   value="Content"
                   className="mr-2"
                 />
                 <label
                   htmlFor="content"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-500"
                 >
                   Content
                 </label>
@@ -342,7 +364,7 @@ function App() {
 
           <button
             type="submit"
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700"
+            className="bg-gradient-to-r from-cyan-200 to-cyan-400 text-[1.3rem] font-semibold text-white px-4 py-4 w-[30rem] rounded-md shadow-sm hover:bg-indigo-700"
           >
             Submit
           </button>
@@ -375,13 +397,13 @@ function App() {
       ) : (
         showContent && (
           <div className="response-container mt-4">
-            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <div className="bg-white shadow-[0px_20px_20px_10px_#a0aec0] p-6 rounded-lg  border border-gray-200">
               <h2 className="text-lg font-semibold text-gray-800 mb-2">
                 Generated Content
               </h2>
               <div
                 ref={contentRef}
-                className="p-4 rounded-md border border-gray-100 "
+                className="p-4 rounded-md border border-gray-100"
               >
                 <pre className="whitespace-pre-wrap text-gray-800 text-xl font-sans">
                   {apiData}
@@ -437,9 +459,6 @@ function App() {
 }
 
 export default App;
-
-
-
 
 // import { useState, useRef } from "react";
 // import "./App.css";
