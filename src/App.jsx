@@ -64,7 +64,7 @@ function App() {
     try {
       const model = await genAI.getGenerativeModel({ model: "gemini-pro" });
       const fullPrompt = `
-         Based on the lesson plan for ${topic}, generate an assessment with 10 MCQ questions and answers for grade ${grade}.`;
+        Based on the lesson plan for ${topic}, generate an assessment with 10 MCQ questions and answers for grade ${grade}.`;
       const result = await model.generateContent(fullPrompt);
       const response = await result.response;
       const text = await response.text();
